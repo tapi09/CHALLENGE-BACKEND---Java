@@ -40,7 +40,6 @@ public class PeliculaSerieService {
 
 	@Transactional
 	public PeliculaSerie save(PeliculaSerieDTOcomplet peliculaSerieDTOcomplet) throws Exception {
-
 		return peliculaSerieRepository.save(convert(peliculaSerieDTOcomplet));
 	}
 
@@ -51,7 +50,6 @@ public class PeliculaSerieService {
 				throw new Exception("La calificacion solo puede ser del 1 al 5");
 			}
 		}
-
 	}
 
 	@Transactional

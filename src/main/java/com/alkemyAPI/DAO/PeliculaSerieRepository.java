@@ -24,6 +24,5 @@ public interface PeliculaSerieRepository extends JpaRepository<PeliculaSerie, St
 	
 	@Query(value = "select * from peliculas_series order by  fecha_creacion desc", nativeQuery = true) 
 	List<PeliculaSerie> findByFechaDesc();
-	 
-
+	
 }

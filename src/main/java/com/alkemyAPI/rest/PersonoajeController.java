@@ -50,7 +50,7 @@ public class PersonoajeController {
 
 	@PostMapping
 	public ResponseEntity<Personaje> create(@RequestBody PersonajeDTO personajeDTO) {
-		
+
 		try {
 			return new ResponseEntity<>(personajeService.save(personajeDTO), HttpStatus.CREATED);
 		} catch (Exception e) {
