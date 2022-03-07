@@ -26,15 +26,17 @@ public class PeliculaSerie {
 	@GeneratedValue(generator = "uuid")
 	@GenericGenerator(name = "uuid", strategy = "uuid2")
 	private String id;
-	
+
 	private String titulo;
+
 	@Temporal(TemporalType.DATE)
 	private Date fechaCreacion;
+
 	private int calificacion;
-	@JoinTable(
-			name = "rel_peliculas_personajes")
+	@JoinTable(name = "rel_peliculas_personajes")
 	@OneToMany
 	private List<Personaje> personajes;
+
 	@Column(length = 16777215)
 	private byte[] imagen;
 

@@ -19,9 +19,7 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 
 import io.jsonwebtoken.Jwts;
 
-
-
-public class JWTAuthorizationFilter extends BasicAuthenticationFilter{
+public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
 	public JWTAuthorizationFilter(AuthenticationManager authManager) {
 		super(authManager);
@@ -44,11 +42,8 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter{
 		String token = request.getHeader(HEADER_AUTHORIZACION_KEY);
 		if (token != null) {
 			// Se procesa el token y se recupera el usuario.
-			String user = Jwts.parser()
-						.setSigningKey(SUPER_SECRET_KEY)
-						.parseClaimsJws(token.replace(TOKEN_BEARER_PREFIX, ""))
-						.getBody()
-						.getSubject();
+			String user = Jwts.parser().setSigningKey(SUPER_SECRET_KEY)
+					.parseClaimsJws(token.replace(TOKEN_BEARER_PREFIX, "")).getBody().getSubject();
 
 			if (user != null) {
 				return new UsernamePasswordAuthenticationToken(user, null, new ArrayList<>());

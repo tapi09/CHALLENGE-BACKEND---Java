@@ -74,16 +74,18 @@ public class PeliculaSerieController {
 			return ResponseEntity.noContent().build();
 		}
 	}
-	@GetMapping(value= "/order=ASC")
-	public ResponseEntity<List<PeliculaSerie>> findByFechaAsc(){
+
+	@GetMapping(value = "/order=ASC")
+	public ResponseEntity<List<PeliculaSerie>> findByFechaAsc() {
 		try {
 			return ResponseEntity.ok(peliculaSerieService.findByFechaAsc());
 		} catch (Exception e) {
 			return ResponseEntity.internalServerError().build();
 		}
 	}
-	@GetMapping(value= "/order=DESC")
-	public ResponseEntity<List<PeliculaSerie>> findByFechaDesc(){
+
+	@GetMapping(value = "/order=DESC")
+	public ResponseEntity<List<PeliculaSerie>> findByFechaDesc() {
 		try {
 			return ResponseEntity.ok(peliculaSerieService.findByFechaDesc());
 		} catch (Exception e) {

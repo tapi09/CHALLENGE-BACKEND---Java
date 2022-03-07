@@ -7,7 +7,6 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -27,26 +26,30 @@ public class UsuarioDetailsServiceImpl implements UserDetailsService {
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 
+	@Autowired
+	private MailService mailService;
+
 	@Transactional
 	public Usuario save(Usuario usuario) throws Exception {
-		validar(usuario.getUsername(), usuario.getPassword());
+		validate(usuario.getEmail(), usuario.getPassword());
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-		usuario.setUsername(usuario.getUsername());
+		usuario.setEmail(usuario.getEmail());
 		usuario.setPassword(encoder.encode(usuario.getPassword()));
 		usuario.setRol(Role.USUARIO);
-		
-
-		return usuarioRepository.save(usuario);
-		 
-
+		usuarioRepository.save(usuario);
+		mailService.sendEmail(usuario.getEmail());
+		return usuario;
 	}
 
-	private void validar(String username, String password) throws Exception {
+	private void validate(String username, String password) throws Exception {
 		if (username.isEmpty() || username == null) {
-			throw new Exception("El nombre de usuario no puede estar vacío");
+			throw new Exception("El email no puede estar vacío");
 		}
-		if (buscarXUserName(username) != null) {
-			throw new Exception("El nombre de usuario ingresado ya existe, por favor ingrese otro");
+		if (!username.contains("@")) {
+			throw new Exception("El mail debe tener @");
+		}
+		if (findByEmail(username) != null) {
+			throw new Exception("El mail ingresado ya existe, por favor ingrese otro");
 		}
 		if (password.isEmpty() || password == null) {
 			throw new Exception("La contraseña no puede estar vacía");
@@ -54,18 +57,18 @@ public class UsuarioDetailsServiceImpl implements UserDetailsService {
 
 	}
 
-	public Usuario buscarXUserName(String username) {
-		return usuarioRepository.findByUsername(username);
+	public Usuario findByEmail(String email) {
+		return usuarioRepository.findByEmail(email);
 	}
 
-	public List<Usuario> listarTodos() {
+	public List<Usuario> findAll() {
 		return usuarioRepository.findAll();
 	}
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		try {
-			Usuario usuario = buscarXUserName(username);
+			Usuario usuario = findByEmail(username);
 			List<GrantedAuthority> authorities = new ArrayList<>();
 			GrantedAuthority auth = new SimpleGrantedAuthority("ROLE_" + usuario.getRol());
 			authorities.add(auth);
@@ -75,16 +78,7 @@ public class UsuarioDetailsServiceImpl implements UserDetailsService {
 		}
 	}
 
-	public String obtenernombre(Authentication usuario) throws Exception {
-		try {
-			return usuario.getName();
-		} catch (Exception e) {
-			throw new Exception("error al obtener nombre de usuario");
-		}
-
-	}
-
-	public Usuario buscaruserxid(Long id) throws Exception {
+	public Usuario findById(Long id) throws Exception {
 		Optional<Usuario> respuesta = usuarioRepository.findById(id);
 		if (respuesta.isPresent()) {
 			return respuesta.get();

@@ -16,15 +16,16 @@ import lombok.Data;
 @Data
 public class Genero {
 	@Id
-	@GeneratedValue(generator="uuid")
+	@GeneratedValue(generator = "uuid")
 	@GenericGenerator(name = "uuid", strategy = "uuid2")
 	private String id;
+
 	private String nombre;
-	
+
 	@Column(length = 16777215)
 	private byte[] imagen;
-	
+
 	@OneToMany
 	private List<PeliculaSerie> peliculas;
-		
+
 }

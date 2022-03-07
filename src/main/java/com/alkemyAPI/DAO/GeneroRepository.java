@@ -6,6 +6,5 @@ import org.springframework.stereotype.Repository;
 import com.alkemyAPI.entities.Genero;
 
 @Repository
-public interface GeneroRepository extends JpaRepository<Genero, String>{
-
+public interface GeneroRepository extends JpaRepository<Genero, String> {
 }

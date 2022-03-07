@@ -8,6 +8,6 @@ import com.alkemyAPI.entities.Usuario;
 
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
-	@Query("SELECT u FROM Usuario u WHERE u.username = :username")
-	Usuario findByUsername(String username);
+	@Query("SELECT u FROM Usuario u WHERE u.email = :email")
+	Usuario findByEmail(String email);
 }

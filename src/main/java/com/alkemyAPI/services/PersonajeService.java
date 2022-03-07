@@ -16,13 +16,12 @@ import com.alkemyAPI.entities.Personaje;
 
 @Service
 public class PersonajeService {
+
 	@Autowired
 	private PersonajeRepository personajeRepository;
-	
 
 	public List<Personaje> listAll() {
 		return personajeRepository.findAll();
-
 	}
 
 	public Personaje findById(String id) throws Exception {
@@ -32,16 +31,16 @@ public class PersonajeService {
 		} else {
 			throw new Exception("id no encontrado");
 		}
-
 	}
 
 	@Transactional
 	public Personaje save(PersonajeDTO personajeDTO) throws Exception {
 		return personajeRepository.save(convert(personajeDTO));
 	}
+
 	public Personaje convert(PersonajeDTO personajeDTO) throws Exception {
 		Personaje personaje = new Personaje();
-		if(personajeDTO.getId() != null) {
+		if (personajeDTO.getId() != null) {
 			personaje = findById(personajeDTO.getId());
 		}
 		personaje.setNombre(personajeDTO.getNombre());
@@ -50,10 +49,9 @@ public class PersonajeService {
 		personaje.setHistoria(personajeDTO.getHistoria());
 		personaje.setPeliculaSerie(personajeDTO.getPeliculas());
 		personaje.setImagen(personajeDTO.getImagen());
-		
+
 		return personaje;
 	}
-	
 
 	public List<PersonajeMostrarDTO> listCharacters() {
 		List<Personaje> personajes = listAll();
@@ -69,24 +67,19 @@ public class PersonajeService {
 
 	@Transactional
 	public void delete(String id) throws Exception {
-
 		personajeRepository.delete(findById(id));
 	}
 
 	public List<Personaje> findByNombre(String nombre) {
 		return personajeRepository.findByNombre(nombre);
-
 	}
 
 	public List<Personaje> findByEdad(Integer edad) {
 		return personajeRepository.findByEdad(edad);
-
 	}
 
 	public List<Personaje> findByIdMovie(String idMovie) throws Exception {
-
 		return personajeRepository.findByIdMovie(idMovie);
-
 	}
 
 }
